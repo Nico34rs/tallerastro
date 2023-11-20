@@ -1,0 +1,166 @@
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Astro</title>
+	</head>
+	<body onload="obtenerTodos()">
+		<div>
+			<table>
+				<thead>
+					<tr>
+						<th>Id</th>
+						<th>Title</th>
+						<th>Completed</th>
+					</tr>
+				</thead>    
+				<tbody id="tblContenido">
+				</tbody>
+			</table>
+		</div>
+
+		<script type="text/javascript">
+			fetch('https://jsonplaceholder.typicode.com/todos/')
+			  .then(response => response.json())
+			  .then(json => console.log(json))
+			  
+		 
+			  async function obtenerTodos() {
+			try {
+				fetch('https://jsonplaceholder.typicode.com/todos/', {
+					method: 'GET',
+					headers: {
+						"Content-Type": "application/json",
+					  }
+				})
+				.then(respuesta => respuesta.json())
+				.then(data => {
+					console.log(data);
+					let cuerpoTabla = document.getElementById("tblContenido");
+					let salida = "";
+					for(let elemento of data){
+						salida += `
+							<tr title="${elemento.id}">
+								<td>${elemento.id}</td>
+								<td>${elemento.title}</td>
+								<td>${elemento.completed}</td>
+							</tr>
+						`;
+					} 
+					cuerpoTabla.innerHTML = salida;
+				})
+				.catch(error => { throw new Error("Error en la solicitud: " + error) })
+			} catch (error) {
+				console.error(error)
+			}
+		}
+		</script>
+	</body>
+</html>
+
+<style>
+	body {
+    width: 80%;
+    margin: 0 auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #a177d9;
+}
+
+.titulo {
+    display: flex;
+    justify-content: center;
+}
+
+h1 {
+    position: absolute;
+    margin-top: 12px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 5px;
+    box-shadow: 0 2px 2px rgba(255, 255, 255, 0.1);
+    text-align: center;
+}
+
+img {
+    position: relative;
+    width: 100px;
+    margin-left: 220px;
+}
+
+.linea {
+    margin-top: -1px;
+    border-color: black;
+}
+
+h2 {
+    text-align: center;
+}
+
+h4 {
+    font-size: 18px;
+    text-decoration: underline;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 10px 0;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px; 
+    text-align: left;
+}
+
+th {
+    background-color: rgb(9, 197, 156);
+    font-weight: bold;
+    text-align: center;
+    color: white;
+}
+
+td {
+    background-color: #ffeae0;
+}
+
+input {
+    background-color: #ffeae0;
+    padding: 10px 10px;
+    font-size: 15px;
+    width: 150px;
+    border: none;
+    border-bottom: solid 1px;
+}
+
+button {
+    background-color: rgb(166, 9, 197);
+    color: white;
+    height: 35px;
+    font-size: 15px;
+    width: 170px;
+    cursor: pointer;
+}
+
+label {
+    display: inline-block;
+    width: 130px; /* ajusta el ancho según tus necesidades */
+    vertical-align: top;
+    line-height: 50px;
+}
+
+textarea {
+    background-color: #f7f7f7;
+    border: 1px solid #ccc;
+    box-shadow: 1px 1px 2px #ccc;
+    cursor: text;
+    font-family: inherit;
+    font-size: 100%;
+    padding: 8px;
+    resize: none;
+    text-align: left;
+    height: 30px;
+}
+</style>
